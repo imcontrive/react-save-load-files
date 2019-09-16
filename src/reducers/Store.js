@@ -1,9 +1,11 @@
-import {createStore,combineReducers} from 'redux';
-import usedColours from './reducer';
+import { createStore, combineReducers } from "redux";
+import undoRedoHandler from "./reducer";
+import { usedColours } from "./reducer";
 
 const rootReducers = combineReducers({
-  usedColours,
-})
+  undoRedoHandler,
+  usedColours
+});
 const store = createStore(rootReducers);
 
 export default store;

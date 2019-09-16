@@ -5,11 +5,19 @@ import SaveLoad from "./SaveLoad";
 import { connect } from "react-redux";
 
 class ActiveProject extends Component {
-  state = {
-    dropdown: "Circle",
-    colorCode: "",
-    usedColors: []
-  };
+  constructor(props) {
+    super(props);
+    console.log(props,"super")
+    this.state = {
+      isActiveProject: "",
+      dropdownShape: "Circle",
+      colorCode: "",
+      dataHistory: [],
+      // ====
+      color: "",
+      shape: ""
+    };
+  }
 
   handleChange = ({ target: { value, name } }) => {
     this.setState({
@@ -17,29 +25,26 @@ class ActiveProject extends Component {
     });
   };
 
-  saveProject = () => {
-    localStorage.setItem("project", JSON.stringify(this.state));
-  };
+  // saveProject = () => {
+  //   localStorage.setItem("project", JSON.stringify(this.state));
+  // };
 
-  //Last Used Colors
   updateColors = color => {
-    var colorsArr = this.state.usedColors;
-    var length = colorsArr.length;
-
-    if (length === 3) {
-      colorsArr.shift();
-      colorsArr.push(color);
-      this.setState({
-        usedColors: colorsArr
-      });
-      this.props.dispatch({ type: "USED_COLORS", payload: colorsArr });
-    } else {
-      colorsArr.push(color);
-      this.props.dispatch({ type: "USED_COLORS", payload: colorsArr });
-      this.setState({
-        usedColors: colorsArr
-      });
-    }
+    this.props.dispatch({
+      type: "ADD",
+      payload: {
+        colorCode: this.state.colorCode,
+        shape: this.state.dropdownShape
+      }
+    })
+    this.setState(
+      {
+        dataHistory: [color, ...this.state.dataHistory],
+        colorCode: ""
+      }
+    );
+    // this.props.dispatch({ type: "USED_COLORS", payload: this.state.dataHistory });
+    // localStorage.setItem("lastThreeActions",JSON.stringify(this.state.usedColors));
   };
 
   render() {
@@ -49,13 +54,13 @@ class ActiveProject extends Component {
           <ControlPanel
             control={this.handleChange}
             colorCode={this.state.colorCode}
-            lastUsedColors={this.state.usedColors}
+            lastUsedColors={this.state.dataHistory}
             updateColors={this.updateColors}
           />
           <Diagram
-            shape={this.state.dropdown}
+            shape={this.state.dropdownShape}
             color={this.state.colorCode}
-            usedColors={this.state.usedColors}
+            dataHistory={this.state.dataHistory}
           />
         </div>
         <div className="uploadSaveFile">
@@ -67,6 +72,7 @@ class ActiveProject extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state, "mapstate");
   return {
     usedColoursInfo: state.colorsInfo
   };

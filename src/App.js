@@ -2,9 +2,17 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ActiveProject from "./components/ActiveProject";
-import Nav from "./components/Nav";
+import Nav from './components/Nav'
 
 class App extends Component {
+  state = {
+    isActiveProject: '',
+  };
+
+  handleActiveProject = (project) => {
+    this.setState({isActiveProject: project})
+  }
+
   render() {
     return (
       <Router>
@@ -12,8 +20,8 @@ class App extends Component {
           <Switch>
             <Route path={`/activeProject/:id`} component={ActiveProject} />
           </Switch>
-          <Nav />
         </div>
+        <Nav handleProject={this.handleActiveProject}/>
       </Router>
     );
   }

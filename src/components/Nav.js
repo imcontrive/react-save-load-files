@@ -6,7 +6,7 @@ export default class Nav extends Component {
     const projects = [
       { name: `Project 1`, id: `01` },
       { name: `Project 2`, id: `02` },
-      { name: `Project 1`, id: `03` },
+      { name: `Project 3`, id: `03` },
       { name: `Project 4`, id: `04` }
     ];
     return (
@@ -18,7 +18,7 @@ export default class Nav extends Component {
             activeClassName="active"
             to={`/activeProject/${"project" + project.id}`}
           >
-            <li>{project.name}</li>
+            <li onClick={() => this.props.handleProject(project.name)}>{project.name}</li>
           </NavLink>
         ))}
       </div>

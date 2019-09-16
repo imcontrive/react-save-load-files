@@ -17,8 +17,12 @@ function Diagram(props) {
       <div style={styles} className={props.shape}></div>
       <div className="isColorBoxes gap">
         <span className="lastUsedColor">
-          {props.usedColors.map((item,i) => (
-            <span className="box" key={i} style={{ backgroundColor: `${item}` }}></span>
+          {props.dataHistory.slice(0, 3).map((color, i) => (
+            <span
+              className="box"
+              key={i}
+              style={{ backgroundColor: `${color}` }}
+            ></span>
           ))}
         </span>
         LAST USED COLOURS
@@ -28,6 +32,7 @@ function Diagram(props) {
 }
 
 function mapStateToProps(state) {
+  console.log(state, "dffdfdffd");
   return {
     usedColoursInfo: state.colorsInfo
   };

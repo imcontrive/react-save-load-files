@@ -1,17 +1,28 @@
 import React, { Component } from "react";
+import {connect} from 'react-redux';
 
-export default class ControlPanel extends Component {
+class ControlPanel extends Component {
+
+
+  undoHandler = () => {
+    console.log("undo")
+    this.props.dispatch({type:"UNDO"})
+  }
+  redoHandler = () => {
+    console.log("redo")
+    this.props.dispatch({type:"REDO"})
+  }
   render() {
-    const dropdownList = [
-      { name: "Circle", id: "01", borderRadius: "50%" },
+    const isShapesArray = [
+      { name: "Circle", id: "01" },
       { name: "Square", id: "02" }
     ];
     return (
       <div className="isActiveContainer">
         <span className="custom-dropdown big gap">
-          <select name="dropdown" onChange={this.props.onClick}>
-            {dropdownList
-              ? dropdownList.map((list, index) => {
+          <select name="dropdownShape" onChange={this.props.control}>
+            {isShapesArray
+              ? isShapesArray.map((list, index) => {
                   return (
                     <option key={index} value={list.name}>
                       {list.name}
@@ -43,16 +54,23 @@ export default class ControlPanel extends Component {
           </button>
         </span>
         <span className="undoredo gap">
-          <span className="undo">
+          <span className="undo" onClick={this.undoHandler}>
             <i className="fas fa-undo" />
-            Undo
+            <button >Undo</button>
           </span>
-          <span className="redo">
+          <span className="redo" onClick={this.redoHandler}>
             <i className="fas fa-redo" />
-            Redo
+            <button>Redo</button>
           </span>
         </span>
       </div>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    allHistory: state.undoRedoHandler
+  };
+}
+export default connect(mapStateToProps)(ControlPanel);
