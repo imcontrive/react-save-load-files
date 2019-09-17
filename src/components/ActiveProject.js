@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ControlPanel from "./ControlPanel";
 import Diagram from "./Diagram";
+import { throws } from "assert";
 // import SaveLoad from "./SaveLoad";
 
 class ActiveProject extends Component {
@@ -15,6 +16,7 @@ class ActiveProject extends Component {
     this.setState({ location: this.props.history.location.pathname });
   }
 
+  //Logic for Select a Stored File for Upload
   fileSelectedHandler = e => {
     const file = e.target.files[0];
     if (file) {
@@ -24,16 +26,17 @@ class ActiveProject extends Component {
       fr.readAsText(file);
     }
   };
-  uploadProject = () => {
-    console.log("file Uploaded", this.state.selectedFile);
-    localStorage.setItem("StoreFiles", JSON.stringify(this.state.selectedFile));
-  };
-  // function for download projects
+
+  //Logic for Upload a Selected File to Active Project
+  // uploadProject = () => {
+  //   localStorage.setItem("StoreFiles", JSON.stringify(this.state.selectedFile));
+  // };
+
+  //Logic for Download Projects
   downloadProject = () => {
     const { history, currentIndex } = this.props.allHistory;
     const a = document.createElement("a");
     a.className = "aClassName";
-    console.log(history[currentIndex]);
     const file = new Blob([JSON.stringify(history[currentIndex])], {
       type: "text/plain"
     });
@@ -53,19 +56,19 @@ class ActiveProject extends Component {
         <div className="uploadSaveFile">
           <div>
             <span className="upDown">
-              <span className="project" onClick={this.uploadProject}>
-                <input
-                  type="file"
-                  name={this.state.selectedFile}
-                  id=""
-                  onChange={this.fileSelectedHandler}
-                />
+              <span className="project">
                 <img
                   src="/Media/load.svg"
                   className="updown-icons"
                   alt="Load"
                 />
-                Load Project
+                <input
+                  class="custom-file-input"
+                  type="file"
+                  name={this.state.selectedFile}
+                  id="file01"
+                  onChange={this.fileSelectedHandler}
+                />
               </span>
               <span className="project" onClick={this.downloadProject}>
                 <img

@@ -16,6 +16,7 @@ class Diagram extends Component {
     return (
       <div className="daigramWrapper">
         <div
+          className="daigramShape"
           style={{
             width: "200px",
             height: "200px",
@@ -28,7 +29,9 @@ class Diagram extends Component {
             }`,
             backgroundColor: `${current.colorCode}`
           }}
-        ></div>
+        >
+          <p className="colorCode">{current.colorCode}</p>
+        </div>
 
         <div className="isColorBoxes gap">
           <span className="lastUsedColor">

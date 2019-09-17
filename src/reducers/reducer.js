@@ -8,7 +8,10 @@ export default function undoRedoHandler(state = initialState, action) {
     case "UNDO":
       return {
         ...state,
-        currentIndex: state.currentIndex - 1
+        currentIndex:
+          state.currentIndex === -1
+            ? (state.currentIndex = -1)
+            : state.currentIndex - 1
       };
     case "ADD":
       return {
@@ -19,19 +22,8 @@ export default function undoRedoHandler(state = initialState, action) {
     case "REDO":
       return {
         ...state,
-        currentIndex: state.currentIndex + 1
-      };
-    default:
-      return state;
-  }
-}
-
-export function usedColours(state = [], action) {
-  switch (action.type) {
-    case "USED_COLORS":
-      return {
-        ...state,
-        colorsInfo: action.payload
+        currentIndex:
+          state.currentIndex < 2 ? state.currentIndex + 1 : state.currentIndex
       };
     default:
       return state;

@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ActiveProject from "./components/ActiveProject";
-import Nav from './components/Nav'
+import Nav from "./components/Nav";
 
 class App extends Component {
   state = {
-    isActiveProject: '',
+    isActiveProject: ""
   };
 
-  handleActiveProject = (project) => {
-    this.setState({isActiveProject: project})
-  }
+  handleActiveProject = project => {
+    this.setState({ isActiveProject: project });
+  };
 
   render() {
     return (
@@ -21,7 +21,7 @@ class App extends Component {
             <Route path={`/activeProject/:id`} component={ActiveProject} />
           </Switch>
         </div>
-        <Nav handleProject={this.handleActiveProject}/>
+        <Nav handleProject={this.handleActiveProject} />
       </Router>
     );
   }

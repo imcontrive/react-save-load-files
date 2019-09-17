@@ -9,15 +9,14 @@ class ControlPanel extends Component {
     dataHistory: []
   };
 
-  // handleChange for update state
+  //Logic For handle inputs into  React State
   handleChange = ({ target: { value, name } }) => {
-    console.log(value, "handle", name);
     this.setState({
       [name]: value
     });
   };
 
-  // update colors & Dispatch Action
+  //Logic for  Update colors/Shape into Redux Store
   updateColors = color => {
     this.props.dispatch({
       type: "ADD",
@@ -31,14 +30,13 @@ class ControlPanel extends Component {
     });
   };
 
-  // function for undo
+  //Logic for Undo
   undoHandler = () => {
-    console.log("undo");
     this.props.dispatch({ type: "UNDO" });
   };
-  // function for redo
+
+  //Logic for Redo
   redoHandler = () => {
-    console.log("redo");
     this.props.dispatch({ type: "REDO" });
   };
 
