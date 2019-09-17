@@ -10,12 +10,9 @@ class Diagram extends Component {
     backgroundColor: ""
   };
   render() {
-    const { history } = this.props.allHistory;
+    const { history, currentIndex } = this.props.allHistory;
+    const current = history[currentIndex] || {};
     // const lastThree = history.length > 3 ? history.sort((a, b) => a - b).slice(0, 3) : history;
-    let current = history[history.length - 1] || {
-      shape: "Circle",
-      colorCode: "red"
-    };
     return (
       <div className="daigramWrapper">
         <div

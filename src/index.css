@@ -323,3 +323,7 @@ a {
 .isColorBoxes {
   padding: 0 16px;
 }
+
+.aClassName {
+  display: none;
+}

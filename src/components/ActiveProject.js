@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import ControlPanel from "./ControlPanel";
 import Diagram from "./Diagram";
 // import SaveLoad from "./SaveLoad";
 
-export default class ActiveProject extends Component {
+class ActiveProject extends Component {
   state = {
     selectedFile: null,
     location: ""
@@ -15,8 +16,13 @@ export default class ActiveProject extends Component {
   }
 
   fileSelectedHandler = e => {
-    console.log(e.target.files[0], "file selected");
-    this.setState({ selectedFile: e.target.files[0] });
+    const file = e.target.files[0];
+    if (file) {
+      let fr = new FileReader();
+      fr.onloadend = () =>
+        this.props.dispatch({ type: "ADD", payload: JSON.parse(fr.result) });
+      fr.readAsText(file);
+    }
   };
   uploadProject = () => {
     console.log("file Uploaded", this.state.selectedFile);
@@ -24,18 +30,17 @@ export default class ActiveProject extends Component {
   };
   // function for download projects
   downloadProject = () => {
-    console.log("download Project");
-    fetch(`http://localhost:3000${this.state.location}`).then(response => {
-      response.blob().then(blob => {
-        console.log("blob", blob);
-        let url = window.URL.createObjectURL(blob);
-        let a = document.createElement("a");
-        a.href = url;
-        a.download = "project.jpeg";
-        a.click();
-      });
-      //window.location.href = response.url;
+    const { history, currentIndex } = this.props.allHistory;
+    const a = document.createElement("a");
+    a.className = "aClassName";
+    console.log(history[currentIndex]);
+    const file = new Blob([JSON.stringify(history[currentIndex])], {
+      type: "text/plain"
     });
+    a.href = URL.createObjectURL(file);
+    a.download = "colorInfo.txt";
+    document.body.appendChild(a);
+    a.click();
   };
 
   render() {
@@ -49,12 +54,12 @@ export default class ActiveProject extends Component {
           <div>
             <span className="upDown">
               <span className="project" onClick={this.uploadProject}>
-                {/* <input
+                <input
                   type="file"
                   name={this.state.selectedFile}
                   id=""
                   onChange={this.fileSelectedHandler}
-                /> */}
+                />
                 <img
                   src="/Media/load.svg"
                   className="updown-icons"
@@ -77,3 +82,10 @@ export default class ActiveProject extends Component {
     );
   }
 }
+function mapStateToProps(state) {
+  return {
+    allHistory: state.undoRedoHandler
+  };
+}
+
+export default connect(mapStateToProps)(ActiveProject);

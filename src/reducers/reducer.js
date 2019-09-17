@@ -1,36 +1,25 @@
 const initialState = {
-  past: [],
-  present: null,
-  future: [],
-  history: []
+  history: [],
+  currentIndex: -1
 };
 
 export default function undoRedoHandler(state = initialState, action) {
-  const { past, present, future } = state;
-
   switch (action.type) {
     case "UNDO":
-      const previous = past[past.length - 1];
-      const newPast = past.slice(0, past.length - 1);
-      // const previous = history[history.length - 1];
-      // const newPast = history.slice(0, history.length - 1);
       return {
-        past: newPast,
-        present: previous,
-        future: [present, ...future]
+        ...state,
+        currentIndex: state.currentIndex - 1
       };
     case "ADD":
       return {
         ...state,
-        history: [...state.history, action.payload]
+        history: [...state.history, action.payload],
+        currentIndex: state.currentIndex + 1
       };
     case "REDO":
-      const next = future[0];
-      const newFuture = future.slice(1);
       return {
-        past: [...past, present],
-        present: next,
-        future: newFuture
+        ...state,
+        currentIndex: state.currentIndex + 1
       };
     default:
       return state;
