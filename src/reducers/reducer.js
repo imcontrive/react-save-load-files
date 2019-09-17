@@ -14,10 +14,12 @@ export default function undoRedoHandler(state = initialState, action) {
             : state.currentIndex - 1
       };
     case "ADD":
+      const data = [...state.history, action.payload];
+      var modifiedData = data.length > 3 ? data.slice(data.length - 3) : data;
       return {
         ...state,
-        history: [...state.history, action.payload],
-        currentIndex: state.currentIndex + 1
+        history: [...modifiedData],
+        currentIndex: modifiedData.length - 1
       };
     case "REDO":
       return {

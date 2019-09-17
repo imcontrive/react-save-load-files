@@ -2,18 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ControlPanel from "./ControlPanel";
 import Diagram from "./Diagram";
-import { throws } from "assert";
-// import SaveLoad from "./SaveLoad";
 
 class ActiveProject extends Component {
   state = {
     selectedFile: null,
-    location: ""
+    isActiveProject: ""
   };
 
   componentDidMount() {
-    // console.log(this.props.history.location.pathname, "location");
-    this.setState({ location: this.props.history.location.pathname });
+    console.log(this.props.match.params.id, "Active Project");
+    this.setState({ isActiveProject: this.props.match.params.id });
   }
 
   //Logic for Select a Stored File for Upload
@@ -27,17 +25,12 @@ class ActiveProject extends Component {
     }
   };
 
-  //Logic for Upload a Selected File to Active Project
-  // uploadProject = () => {
-  //   localStorage.setItem("StoreFiles", JSON.stringify(this.state.selectedFile));
-  // };
-
   //Logic for Download Projects
   downloadProject = () => {
     const { history, currentIndex } = this.props.allHistory;
     const a = document.createElement("a");
     a.className = "aClassName";
-    const file = new Blob([JSON.stringify(history[currentIndex])], {
+    const file = new Blob([JSON.stringify(history)], {
       type: "text/plain"
     });
     a.href = URL.createObjectURL(file);
@@ -50,7 +43,7 @@ class ActiveProject extends Component {
     return (
       <div className="isActiveContainer" style={{ paddingTop: "3rem" }}>
         <div className="userDataInputs">
-          <ControlPanel />
+          <ControlPanel isActiveProject={this.state.isActiveProject} />
           <Diagram />
         </div>
         <div className="uploadSaveFile">
@@ -63,7 +56,7 @@ class ActiveProject extends Component {
                   alt="Load"
                 />
                 <input
-                  class="custom-file-input"
+                  className="custom-file-input"
                   type="file"
                   name={this.state.selectedFile}
                   id="file01"

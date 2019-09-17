@@ -5,14 +5,6 @@ import ActiveProject from "./components/ActiveProject";
 import Nav from "./components/Nav";
 
 class App extends Component {
-  state = {
-    isActiveProject: ""
-  };
-
-  handleActiveProject = project => {
-    this.setState({ isActiveProject: project });
-  };
-
   render() {
     return (
       <Router>

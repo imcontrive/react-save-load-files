@@ -12,7 +12,6 @@ class Diagram extends Component {
   render() {
     const { history, currentIndex } = this.props.allHistory;
     const current = history[currentIndex] || {};
-    // const lastThree = history.length > 3 ? history.sort((a, b) => a - b).slice(0, 3) : history;
     return (
       <div className="daigramWrapper">
         <div
@@ -36,18 +35,13 @@ class Diagram extends Component {
         <div className="isColorBoxes gap">
           <span className="lastUsedColor">
             {history
-              ? history
-                  .sort((a, b) => b - a)
-                  .slice(0, 3)
-                  .map((item, i) => (
-                    <>
-                      <span
-                        className="box"
-                        key={i}
-                        style={{ backgroundColor: `${item.colorCode}` }}
-                      ></span>
-                    </>
-                  ))
+              ? history.map((item, i) => (
+                  <span
+                    className="box"
+                    key={i}
+                    style={{ backgroundColor: `${item.colorCode}` }}
+                  ></span>
+                ))
               : ""}
           </span>
           <p> LAST USED COLOURS</p>
