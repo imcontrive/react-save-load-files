@@ -1,80 +1,79 @@
 import React, { Component } from "react";
-import Diagram from "./Diagram";
 import ControlPanel from "./ControlPanel";
-import SaveLoad from "./SaveLoad";
-import { connect } from "react-redux";
+import Diagram from "./Diagram";
+// import SaveLoad from "./SaveLoad";
 
-class ActiveProject extends Component {
-  constructor(props) {
-    super(props);
-    console.log(props,"super")
-    this.state = {
-      isActiveProject: "",
-      dropdownShape: "Circle",
-      colorCode: "",
-      dataHistory: [],
-      // ====
-      color: "",
-      shape: ""
-    };
-  }
-
-  handleChange = ({ target: { value, name } }) => {
-    this.setState({
-      [name]: value
-    });
+export default class ActiveProject extends Component {
+  state = {
+    selectedFile: null,
+    location: ""
   };
 
-  // saveProject = () => {
-  //   localStorage.setItem("project", JSON.stringify(this.state));
-  // };
+  componentDidMount() {
+    // console.log(this.props.history.location.pathname, "location");
+    this.setState({ location: this.props.history.location.pathname });
+  }
 
-  updateColors = color => {
-    this.props.dispatch({
-      type: "ADD",
-      payload: {
-        colorCode: this.state.colorCode,
-        shape: this.state.dropdownShape
-      }
-    })
-    this.setState(
-      {
-        dataHistory: [color, ...this.state.dataHistory],
-        colorCode: ""
-      }
-    );
-    // this.props.dispatch({ type: "USED_COLORS", payload: this.state.dataHistory });
-    // localStorage.setItem("lastThreeActions",JSON.stringify(this.state.usedColors));
+  fileSelectedHandler = e => {
+    console.log(e.target.files[0], "file selected");
+    this.setState({ selectedFile: e.target.files[0] });
+  };
+  uploadProject = () => {
+    console.log("file Uploaded", this.state.selectedFile);
+    localStorage.setItem("StoreFiles", JSON.stringify(this.state.selectedFile));
+  };
+  // function for download projects
+  downloadProject = () => {
+    console.log("download Project");
+    fetch(`http://localhost:3000${this.state.location}`).then(response => {
+      response.blob().then(blob => {
+        console.log("blob", blob);
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement("a");
+        a.href = url;
+        a.download = "project.jpeg";
+        a.click();
+      });
+      //window.location.href = response.url;
+    });
   };
 
   render() {
     return (
       <div className="isActiveContainer" style={{ paddingTop: "3rem" }}>
         <div className="userDataInputs">
-          <ControlPanel
-            control={this.handleChange}
-            colorCode={this.state.colorCode}
-            lastUsedColors={this.state.dataHistory}
-            updateColors={this.updateColors}
-          />
-          <Diagram
-            shape={this.state.dropdownShape}
-            color={this.state.colorCode}
-            dataHistory={this.state.dataHistory}
-          />
+          <ControlPanel />
+          <Diagram />
         </div>
         <div className="uploadSaveFile">
-          <SaveLoad save={this.saveProject} />
+          <div>
+            <span className="upDown">
+              <span className="project" onClick={this.uploadProject}>
+                {/* <input
+                  type="file"
+                  name={this.state.selectedFile}
+                  id=""
+                  onChange={this.fileSelectedHandler}
+                /> */}
+                <img
+                  src="/Media/load.svg"
+                  className="updown-icons"
+                  alt="Load"
+                />
+                Load Project
+              </span>
+              <span className="project" onClick={this.downloadProject}>
+                <img
+                  src="/Media/save.svg"
+                  className="updown-icons"
+                  alt="Save"
+                />
+                Save Project
+              </span>
+            </span>
+          </div>
         </div>
       </div>
     );
   }
 }
-
-function mapStateToProps(state) {
-  console.log(state, "mapstate");
-  return {
-    usedColoursInfo: state.colorsInfo
-  };
-}
-export default connect(mapStateToProps)(ActiveProject);

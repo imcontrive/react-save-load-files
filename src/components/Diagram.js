@@ -1,40 +1,65 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 
-function Diagram(props) {
-  var value = props.shape === "Square" ? "0%" : "50%";
-  var color = props.color;
-
-  var styles = {
+class Diagram extends Component {
+  styles = {
     height: "200px",
     width: "200px",
     border: "1px solid black",
-    borderRadius: value,
-    backgroundColor: color
+    borderRadius: "",
+    backgroundColor: ""
   };
-  return (
-    <div className="daigramWrapper">
-      <div style={styles} className={props.shape}></div>
-      <div className="isColorBoxes gap">
-        <span className="lastUsedColor">
-          {props.dataHistory.slice(0, 3).map((color, i) => (
-            <span
-              className="box"
-              key={i}
-              style={{ backgroundColor: `${color}` }}
-            ></span>
-          ))}
-        </span>
-        LAST USED COLOURS
+  render() {
+    const { history } = this.props.allHistory;
+    // const lastThree = history.length > 3 ? history.sort((a, b) => a - b).slice(0, 3) : history;
+    let current = history[history.length - 1] || {
+      shape: "Circle",
+      colorCode: "red"
+    };
+    return (
+      <div className="daigramWrapper">
+        <div
+          style={{
+            width: "200px",
+            height: "200px",
+            borderRadius: `${
+              current.shape === "Circle"
+                ? "50%"
+                : current.shape === "Square"
+                ? "0%"
+                : ""
+            }`,
+            backgroundColor: `${current.colorCode}`
+          }}
+        ></div>
+
+        <div className="isColorBoxes gap">
+          <span className="lastUsedColor">
+            {history
+              ? history
+                  .sort((a, b) => b - a)
+                  .slice(0, 3)
+                  .map((item, i) => (
+                    <>
+                      <span
+                        className="box"
+                        key={i}
+                        style={{ backgroundColor: `${item.colorCode}` }}
+                      ></span>
+                    </>
+                  ))
+              : ""}
+          </span>
+          <p> LAST USED COLOURS</p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 function mapStateToProps(state) {
-  console.log(state, "dffdfdffd");
   return {
-    usedColoursInfo: state.colorsInfo
+    allHistory: state.undoRedoHandler
   };
 }
 export default connect(mapStateToProps)(Diagram);

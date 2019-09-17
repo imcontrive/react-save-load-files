@@ -149,7 +149,7 @@ a {
 
 body {
   background: #ffffff;
-  color: black;
+  color: #616161;
   font-family: "Roboto", sans-serif;
   line-height: 1.5;
   letter-spacing: 0.5px;
@@ -168,19 +168,20 @@ li {
 }
 a {
   display: inline-block;
-  border: 1px solid black;
+  border: 1px solid #616161;
   padding: 4px 16px;
 }
 
 /* Styles for Active Project */
 .active {
   color: black;
-  background: rgb(192, 185, 185);
+  background: #262626;
   padding: 4px 16px;
 }
 
 /* userDataInputs */
-.userDataInputs ,.uploadSaveFile{
+.userDataInputs,
+.uploadSaveFile {
   width: 500px;
   margin: 0 auto;
   display: flex;
@@ -293,15 +294,16 @@ a {
 .project {
   display: block;
   color: #a4a3a3;
-  font-size: 22px;
+  font-size: 18px;
 }
-.icon {
+.updown-icons {
+  width: 28px;
   margin-right: 0.5rem;
   color: #616161;
 }
 .lastUsedColor {
-  display: flex;
   width: 165px;
+  display: flex;
   justify-content: space-evenly;
 }
 .box {
