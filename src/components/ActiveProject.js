@@ -46,12 +46,13 @@ class ActiveProject extends Component {
         <div className="uploadSaveFile">
           <div>
             <span className="upDown">
-              <span className="project">
+              <label className="project">
                 <img
                   src="/Media/load.svg"
                   className="updown-icons"
                   alt="Load"
                 />
+                Load Project
                 <input
                   className="custom-file-input"
                   type="file"
@@ -59,7 +60,7 @@ class ActiveProject extends Component {
                   id="file01"
                   onChange={this.fileSelectedHandler}
                 />
-              </span>
+              </label>
               <span className="project" onClick={this.downloadProject}>
                 <img
                   src="/Media/save.svg"

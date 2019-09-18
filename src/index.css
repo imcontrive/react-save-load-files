@@ -187,11 +187,13 @@ a {
   justify-content: space-between;
 }
 /* custom input file */
+.custom-file-input {
+  color: transparent;
+}
 .custom-file-input::-webkit-file-upload-button {
   visibility: hidden;
 }
 .custom-file-input::before {
-  content: "Load File";
   display: inline-block;
   border-radius: 3px;
   padding: 5px 8px;
