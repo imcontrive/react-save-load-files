@@ -13,7 +13,7 @@ class App extends Component {
             <Route path={`/activeProject/:id`} component={ActiveProject} />
           </Switch>
         </div>
-        <Nav handleProject={this.handleActiveProject} />
+        <Nav />
       </Router>
     );
   }
