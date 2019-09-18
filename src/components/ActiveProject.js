@@ -5,8 +5,7 @@ import Diagram from "./Diagram";
 
 class ActiveProject extends Component {
   state = {
-    selectedFile: null,
-    isActiveProject: ""
+    selectedFile: null
   };
 
   //Logic for Select a Stored File for Upload

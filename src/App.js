@@ -8,12 +8,12 @@ class App extends Component {
   render() {
     return (
       <Router>
+        <Nav />
         <div className="container">
           <Switch>
             <Route path={`/activeProject/:id`} component={ActiveProject} />
           </Switch>
         </div>
-        <Nav />
       </Router>
     );
   }
