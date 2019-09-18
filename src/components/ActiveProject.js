@@ -9,11 +9,6 @@ class ActiveProject extends Component {
     isActiveProject: ""
   };
 
-  componentDidMount() {
-    console.log(this.props.match.params.id, "Active Project");
-    this.setState({ isActiveProject: this.props.match.params.id });
-  }
-
   //Logic for Select a Stored File for Upload
   fileSelectedHandler = e => {
     const file = e.target.files[0];
@@ -27,10 +22,10 @@ class ActiveProject extends Component {
 
   //Logic for Download Projects
   downloadProject = () => {
-    const { history, currentIndex } = this.props.allHistory;
+    const { history, activeProject } = this.props.allHistory;
     const a = document.createElement("a");
     a.className = "aClassName";
-    const file = new Blob([JSON.stringify(history)], {
+    const file = new Blob([JSON.stringify(history[activeProject])], {
       type: "text/plain"
     });
     a.href = URL.createObjectURL(file);
@@ -40,10 +35,12 @@ class ActiveProject extends Component {
   };
 
   render() {
+    const data = this.props.allHistory;
+    console.log(data, "data in props");
     return (
       <div className="isActiveContainer" style={{ paddingTop: "3rem" }}>
         <div className="userDataInputs">
-          <ControlPanel isActiveProject={this.state.isActiveProject} />
+          <ControlPanel />
           <Diagram />
         </div>
         <div className="uploadSaveFile">
@@ -83,5 +80,4 @@ function mapStateToProps(state) {
     allHistory: state.undoRedoHandler
   };
 }
-
 export default connect(mapStateToProps)(ActiveProject);

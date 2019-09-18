@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 class ControlPanel extends Component {
   state = {
-    ActiveProject: "",
+    activeProject: 0,
     colorCode: "",
     dropdownShape: "Circle",
     dataHistory: []
@@ -23,7 +23,8 @@ class ControlPanel extends Component {
       type: "ADD",
       payload: {
         colorCode: this.state.colorCode,
-        shape: this.state.dropdownShape
+        shape: this.state.dropdownShape,
+        projectId: this.props.isActiveProject
       }
     });
     this.setState({

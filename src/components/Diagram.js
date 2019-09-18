@@ -10,8 +10,9 @@ class Diagram extends Component {
     backgroundColor: ""
   };
   render() {
-    const { history, currentIndex } = this.props.allHistory;
-    const current = history[currentIndex] || {};
+    const { history, activeProject } = this.props.allHistory;
+    const currentProject = history[activeProject];
+    const currentColor = currentProject.data[currentProject.currentIndex] || [];
     return (
       <div className="daigramWrapper">
         <div
@@ -20,22 +21,22 @@ class Diagram extends Component {
             width: "200px",
             height: "200px",
             borderRadius: `${
-              current.shape === "Circle"
+              currentColor.shape === "Circle"
                 ? "50%"
-                : current.shape === "Square"
+                : currentColor.shape === "Square"
                 ? "0%"
                 : ""
             }`,
-            backgroundColor: `${current.colorCode}`
+            backgroundColor: `${currentColor.colorCode}`
           }}
         >
-          <p className="colorCode">{current.colorCode}</p>
+          <p className="colorCode">{currentColor.colorCode}</p>
         </div>
 
         <div className="isColorBoxes gap">
           <span className="lastUsedColor">
-            {history
-              ? history.map((item, i) => (
+            {currentProject
+              ? currentProject.data.map((item, i) => (
                   <span
                     className="box"
                     key={i}
