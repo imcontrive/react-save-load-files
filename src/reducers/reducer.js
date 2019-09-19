@@ -18,7 +18,10 @@ export default function undoRedoHandler(state = initialState, action) {
           ...state.history,
           [state.activeProject]: {
             ...state.history[state.activeProject],
-            currentIndex: state.history[state.activeProject].currentIndex - 1
+            currentIndex:
+              state.history[state.activeProject].currentIndex === -1
+                ? (state.history[state.activeProject].currentIndex = -1)
+                : state.history[state.activeProject].currentIndex - 1
           }
         }
       };
@@ -50,7 +53,10 @@ export default function undoRedoHandler(state = initialState, action) {
           ...state.history,
           [state.activeProject]: {
             ...state.history[state.activeProject],
-            currentIndex: state.history[state.activeProject].currentIndex + 1
+            currentIndex:
+              state.history[state.activeProject].currentIndex === 2
+                ? (state.history[state.activeProject].currentIndex = 2)
+                : state.history[state.activeProject].currentIndex + 1
           }
         }
       };

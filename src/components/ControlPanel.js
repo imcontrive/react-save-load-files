@@ -18,7 +18,6 @@ class ControlPanel extends Component {
 
   //Logic for  Update colors/Shape into Redux Store
   updateColors = color => {
-    console.log(this.props.isActiveProject, "panel");
     this.props.dispatch({
       type: "ADD",
       payload: {
